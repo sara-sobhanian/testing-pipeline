@@ -25,7 +25,7 @@
 ### 1. **Clone the Repository**
 
 ```bash
-git clone https://github.com/pooyanazad/dealsdeals.git
+git clone https://github.com/pooyanazad/Dealsdeals-Website.git
 cd dealsdeals/app
 ```
 
