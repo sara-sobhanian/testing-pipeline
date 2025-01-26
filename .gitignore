@@ -4,6 +4,7 @@
 *.pyd
 __pycache__/
 */__pycache__/
+instance/
 
 # Virtual environments
 venv/
@@ -22,16 +23,6 @@ app/static/img/*
 # BUT keep the two default images:
 !app/static/img/default_cover.jpg
 !app/static/img/default_product.jpg
-
-# Our instance folder (contains local DB and secrets)
-dealsdeals/app/instance/
-
-# Our pycache in app folder
-dealsdeals/app/__pycache__/
-
-# If you don't want to commit your local SQLite DB
-dealsdeals/app/instance/*.db
-
 
 # Terraform ignores in infra/test
 infra/test/.terraform*
