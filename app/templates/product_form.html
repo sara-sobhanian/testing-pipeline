@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>{{ product and 'Edit' or 'Create' }} Product</h2>
+<form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="name">Product Name</label>
+        <input type="text" name="name" id="name" value="{{ product and product.name or '' }}" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea name="description" id="description" rows="4" required>{{ product and product.description or '' }}</textarea>
+    </div>
+    <div class="form-group">
+        <label for="price">Price (USD)</label>
+        <input type="text" name="price" id="price" value="{{ product and product.price or '' }}" required>
+    </div>
+    <div class="form-group">
+        <label for="url">Product URL</label>
+        <input type="text" name="url" id="url" value="{{ product and product.url or '' }}" placeholder="https://yoursite.com/..." required>
+    </div>
+    <div class="form-group">
+        <label for="image">Product Image 
+            {% if product %}(Leave blank to keep existing image){% endif %}
+        </label>
+        <input type="file" name="image" id="image" accept="image/*">
+        {% if product and product.image_path %}
+            <p>Current image:</p>
+            <img src="{{ url_for('static', filename=product.image_path) }}"
+                 style="max-width:150px; border-radius:4px;">
+        {% endif %}
+    </div>
+    <button type="submit" class="btn-primary">{{ product and 'Update' or 'Create' }}</button>
+</form>
+{% endblock %}

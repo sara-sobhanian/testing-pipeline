@@ -1,0 +1,75 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+<p>Welcome, Admin!</p>
+
+<div style="margin-bottom: 1cm;">
+    <h3>Change Cover Photo</h3>
+    <!-- If there's a cover_photo path from DB, show it; else fallback to default -->
+    <img src="{{ url_for('static', filename=cover_photo) }}" 
+         alt="Cover Photo" style="max-width:300px; border-radius: 8px;">
+
+    <form method="POST" action="{{ url_for('update_cover_photo') }}" enctype="multipart/form-data" style="margin-top:15px;">
+        <div class="form-group">
+            <label for="cover_photo">Select New Cover Photo</label>
+            <input type="file" name="cover_photo" id="cover_photo" accept="image/*">
+        </div>
+        <button type="submit" class="btn-primary">Update Cover</button>
+    </form>
+</div>
+
+<hr>
+
+<div>
+    <h3>Manage Products</h3>
+    <a href="{{ url_for('manage_product') }}" class="btn-primary" style="margin: 10px 0; display:inline-block;">
+        Add New Product
+    </a>
+
+    <table style="width:100%; margin-top:20px; border-collapse: collapse;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>URL</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr style="border-bottom:1px solid #ccc;">
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>${{ "%.2f"|format(product.price) }}</td>
+                <td>
+                    {% if product.url %}
+                        <a href="{{ product.url }}" target="_blank" rel="noopener noreferrer">{{ product.url }}</a>
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>
+                    {% if product.image_path %}
+                        <img src="{{ url_for('static', filename=product.image_path) }}"
+                             alt="{{ product.name }}" style="max-width:100px; border-radius:4px;">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='img/default_product.jpg') }}"
+                             alt="{{ product.name }}" style="max-width:100px; border-radius:4px;">
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('manage_product', product_id=product.id) }}" class="btn-primary">Edit</a>
+                    <form action="{{ url_for('delete_product', product_id=product.id) }}"
+                          method="POST" style="display:inline;"
+                          onsubmit="return confirm('Are you sure you want to delete this product?');">
+                        <button type="submit" class="btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

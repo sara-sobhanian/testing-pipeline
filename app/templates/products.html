@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Our Products</h2>
+<div class="products-grid">
+    {% for product in products %}
+    <div class="product-card">
+        <a href="{{ product.url }}" target="_blank" rel="noopener noreferrer">
+            {% if product.image_path %}
+                <img src="{{ url_for('static', filename=product.image_path) }}" alt="{{ product.name }}">
+            {% else %}
+                <img src="{{ url_for('static', filename='img/default_product.jpg') }}" alt="{{ product.name }}">
+            {% endif %}
+            <h3>{{ product.name }}</h3>
+        </a>
+        <p>{{ product.description }}</p>
+        <p><strong>${{ "%.2f"|format(product.price) }}</strong></p>
+    </div>
+    {% else %}
+    <p>No products available at the moment. Please check back later!</p>
+    {% endfor %}
+</div>
+{% endblock %}

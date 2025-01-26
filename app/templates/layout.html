@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DealsDeals.org</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <!-- Left side: link to https://dealsdeals.org -->
+            <div style="font-size: 0.9rem;">
+                <a href="https://dealsdeals.org" style="color: #fff; text-decoration: none;">
+                    DealsDeals.org
+                </a>
+            </div>
+            <!-- Right side: normal nav menu -->
+            <nav>
+                <a href="{{ url_for('home') }}">Home</a>
+                <a href="{{ url_for('products_page') }}">Products</a>
+                <a href="{{ url_for('contact') }}">Contact Us</a>
+                {% if session.get('admin_logged_in') %}
+                    <a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a>
+                    <a href="{{ url_for('admin_logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('admin_login') }}">Admin</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}
+        <div class="container">
+          {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; {{ 2025 }} DealsDeals.org. All rights reserved.</p>
+    </footer>
+</body>
+</html>
